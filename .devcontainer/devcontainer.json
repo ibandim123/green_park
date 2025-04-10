@@ -1,0 +1,22 @@
+{
+  "name": "typescript-prisma-app",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node",
+  "forwardPorts": [8080],
+  "postCreateCommand": "npm install && npx prisma generate && npx tsc",
+  "runArgs": [
+    "--env",
+    "DATABASE_URL=mysql://root:1234@host.docker.internal:3306/greenpark"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  }
+}

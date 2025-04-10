@@ -1,0 +1,7 @@
+/node_modules
+/github
+/devcontainer
+/generated
+/prisma/node_modules
+/uploads
+/.env
