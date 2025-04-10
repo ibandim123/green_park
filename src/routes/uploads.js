@@ -95,4 +95,34 @@ router.post("/upload_pdf", upload.single("file"), async (req, res) => {
         fs_1.default.unlinkSync(req.file.path);
     }
 });
+router.get("/boletos", async (req, res) => {
+    const { client_name, id_lots, value, active } = req.query;
+    const where = {};
+    if (client_name) {
+        where.client_name = {
+            contains: String(client_name),
+            // mode: "insensitive",
+        };
+    }
+    if (id_lots) {
+        where.id_lots = Number(id_lots);
+    }
+    if (value) {
+        where.value = Number(value);
+    }
+    if (active !== undefined) {
+        where.active = active === "true";
+    }
+    try {
+        const bills = await prisma.bills.findMany({
+            where,
+            orderBy: { created_at: "desc" },
+        });
+        res.status(200).json(bills);
+    }
+    catch (err) {
+        console.error("Erro ao buscar boletos:", err);
+        res.status(500).send("Erro ao buscar boletos");
+    }
+});
 exports.default = router;

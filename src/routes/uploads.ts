@@ -7,6 +7,7 @@ import pdf from "pdf-parse";
 
 const router = express.Router();
 const prisma = new PrismaClient();
+
 const upload = multer({ dest: "uploads/" });
 
 router.post(
@@ -31,7 +32,7 @@ router.post(
             row.id_lots = "7";
             break;
         }
-        console.log("🔍 Linha lida do CSV:", row);
+        console.log("registros:", row);
         bills.push({
           client_name: row.client_name,
           id_lots: parseInt(row.id_lots),
@@ -102,5 +103,42 @@ router.post(
     }
   }
 );
+
+router.get("/boletos", async (req: any, res: any) => {
+  const { client_name, id_lots, value, active } = req.query;
+
+  const where: any = {};
+
+  if (client_name) {
+    where.client_name = {
+      contains: String(client_name),
+      // mode: "insensitive",
+    };
+  }
+
+  if (id_lots) {
+    where.id_lots = Number(id_lots);
+  }
+
+  if (value) {
+    where.value = Number(value);
+  }
+
+  if (active !== undefined) {
+    where.active = active === "true";
+  }
+
+  try {
+    const bills = await prisma.bills.findMany({
+      where,
+      orderBy: { created_at: "desc" },
+    });
+
+    res.status(200).json(bills);
+  } catch (err) {
+    console.error("Erro ao buscar boletos:", err);
+    res.status(500).send("Erro ao buscar boletos");
+  }
+});
 
 export default router;

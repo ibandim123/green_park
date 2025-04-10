@@ -5,3 +5,4 @@
 /prisma/node_modules
 /uploads
 /.env
+/docker-composer.yaml
