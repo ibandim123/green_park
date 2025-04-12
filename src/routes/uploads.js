@@ -15,9 +15,9 @@ const upload = (0, multer_1.default)({ dest: "uploads/" });
 class Routes {
     constructor() {
         this.router = express_1.default.Router();
-        this.routes();
+        this.registerRoutes();
     }
-    routes() {
+    registerRoutes() {
         this.router.post("/upload_csv", upload.single("file"), async (req, res) => {
             if (!req.file)
                 return res.status(400).send("Nenhum arquivo enviado.");

@@ -12,10 +12,10 @@ export class Routes {
   public readonly router = express.Router();
 
   constructor() {
-    this.routes();
+    this.registerRoutes();
   }
 
-  private routes() {
+  private registerRoutes() {
     this.router.post(
       "/upload_csv",
       upload.single("file"),
