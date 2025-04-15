@@ -24,6 +24,11 @@ O projeto já possui dois arquivos de testes ficticios para o teste em:
 ---| files \
 -----| csv/pdf
 
+Execução do projeto:
+```[bash]
+node dist/main.js
+```
+
 ### Banco de Dados
 
 Config arquivo .env
